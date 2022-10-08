@@ -26,21 +26,57 @@
                         pkgsNew.lib.composeExtensions
                         (old.overrides or (_: _: { }))
                         [ (pkgsNew.haskell.lib.packageSourceOverrides {
-                            effectful-core = "1.0.0.0";
-
-                            effectful = "1.0.0.0";
-
                             flora = ./.;
+
+                            text-display = "0.0.2.0";
                           })
                           (pkgsNew.haskell.lib.packagesFromDirectory {
                             directory = ./nix;
                           })
                           (haskellPackagesNew: haskellPackagesOld: {
+                            pcre = haskellPackagesNew.pcre2_2_1_1_1;
+
                             PyF = haskellPackagesNew.PyF_0_11_1_0;
+
+                            pcre2 =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesOld.pcre2;
+
+                            postgresql-simple-migration =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.postgresql-simple-migration;
 
                             raven-haskell =
                               pkgsNew.haskell.lib.dontCheck
                                 haskellPackagesOld.raven-haskell;
+
+                            slugify =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesOld.slugify;
+
+                            souffle-haskell =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesOld.souffle-haskell;
+
+                            pg-transact =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesOld.pg-transact;
+
+                            pg-transact-effectful =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.pg-transact-effectful;
+
+                            type-errors-pretty =
+                              pkgsNew.haskell.lib.doJailbreak
+                                (pkgsNew.haskell.lib.dontCheck
+                                  haskellPackagesOld.type-errors-pretty
+                                );
+
+                            wai-middleware-heartbeat =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.wai-middleware-heartbeat;
+
+                            vector = haskellPackagesNew.vector_0_13_0_0;
                           })
                         ];
                   });

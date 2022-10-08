@@ -1,24 +1,19 @@
-{ mkDerivation, aeson, base, bytestring, effectful, effectful-core
-, fetchgit, lib, log-base, tasty, tasty-hunit, text, time
-, time-effectful
+{ mkDerivation, aeson, base, bytestring, effectful-core, fetchgit
+, lib, log-base, text, time
 }:
 mkDerivation {
   pname = "log-effectful";
-  version = "0.0.1.0";
+  version = "1.0.0.0";
   src = fetchgit {
-    url = "https://github.com/haskell-effectful/log-effectful";
-    sha256 = "0nwq1i9bm29d6nh5j8sjc7m3rbs3fjf56hwph7yrgc478x645vhi";
-    rev = "aaeb7eef5717e9ed26dfbf85016f277134883520";
+    url = "https://github.com/haskell-effectful/log-effectful.git";
+    sha256 = "08sj70nhk6nl8gbbgppak8f6y8k2wdi6il2vvyp1ll7m22sd0ij8";
+    rev = "8f4658052434e5ba6f3f729e8b8588aeef65938e";
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
     aeson base bytestring effectful-core log-base text time
-    time-effectful
   ];
-  testHaskellDepends = [
-    aeson base effectful effectful-core log-base tasty tasty-hunit text
-    time-effectful
-  ];
-  homepage = "https://github.com/haskell-effectful/log-effectful#readme";
+  testHaskellDepends = [ aeson base effectful-core log-base text ];
+  description = "Adaptation of the log library for the effectful ecosystem";
   license = lib.licenses.bsd3;
 }
