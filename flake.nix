@@ -76,7 +76,9 @@
                               pkgsNew.haskell.lib.doJailbreak
                                 haskellPackagesOld.wai-middleware-heartbeat;
 
-                            vector = haskellPackagesNew.vector_0_13_0_0;
+                            vector =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesNew.vector_0_13_0_0;
                           })
                         ];
                   });
