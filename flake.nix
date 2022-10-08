@@ -7,7 +7,7 @@
   outputs = { nixpkgs, utils, ... }:
     utils.lib.eachDefaultSystem (system:
       let
-        compiler = "ghc92";
+        compiler = "ghc94";
 
         config = { allowBroken = true; allowUnsupportedSystem = true; };
 
