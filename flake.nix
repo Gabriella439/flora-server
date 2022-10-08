@@ -34,6 +34,11 @@
                             directory = ./nix;
                           })
                           (haskellPackagesNew: haskellPackagesOld: {
+                            flora =
+                              pkgsNew.haskell.lib.addBuildTool
+                                haskellPackagesOld.flora
+                                pkgsNew.souffle;
+
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
 
                             odd-jobs =
@@ -46,8 +51,6 @@
 
                                   libraryToolDepends = [];
                                 });
-
-                            pcre = haskellPackagesNew.pcre2_2_1_1_1;
 
                             PyF = haskellPackagesNew.PyF_0_11_1_0;
 
