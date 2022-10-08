@@ -36,9 +36,16 @@
                           (haskellPackagesNew: haskellPackagesOld: {
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
 
-#                           odd-jobs =
-#                             pkgsNew.haskell.lib.dontCheck
-#                               haskellPackagesOld.odd-jobs;
+                            odd-jobs =
+                              pkgsNew.haskell.lib.overrideCabal
+                                haskellPackagesOld.odd-jobs
+                                (old: {
+                                  doCheck = false;
+
+                                  prePatch = "";
+
+                                  libraryToolDepends = [];
+                                });
 
                             pcre = haskellPackagesNew.pcre2_2_1_1_1;
 
@@ -65,6 +72,10 @@
                             resource-pool =
                               haskellPackagesNew.resource-pool_0_3_1_0;
 
+                            servant-static-th =
+                              pkgsNew.haskell.lib.dontCheck
+                                haskellPackagesOld.servant-static-th;
+
                             slugify =
                               pkgsNew.haskell.lib.dontCheck
                                 haskellPackagesOld.slugify;
@@ -80,6 +91,10 @@
                             pg-transact-effectful =
                               pkgsNew.haskell.lib.doJailbreak
                                 haskellPackagesOld.pg-transact-effectful;
+
+                            prometheus-proc =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.prometheus-proc;
 
                             text-metrics =
                               pkgsNew.haskell.lib.doJailbreak
@@ -118,7 +133,7 @@
           apps.default = {
             type = "app";
 
-            program = "${pkgs.flora}/bin/flora";
+            program = "${pkgs.flora}/bin/flora-server";
           };
 
           devShells.default = pkgs.haskell.packages."${compiler}".flora.env;
