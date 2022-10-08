@@ -34,6 +34,12 @@
                             directory = ./nix;
                           })
                           (haskellPackagesNew: haskellPackagesOld: {
+                            lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
+
+#                           odd-jobs =
+#                             pkgsNew.haskell.lib.dontCheck
+#                               haskellPackagesOld.odd-jobs;
+
                             pcre = haskellPackagesNew.pcre2_2_1_1_1;
 
                             PyF = haskellPackagesNew.PyF_0_11_1_0;
@@ -42,6 +48,12 @@
                               pkgsNew.haskell.lib.dontCheck
                                 haskellPackagesOld.pcre2;
 
+                            pg-entity =
+                              pkgsNew.haskell.lib.doJailbreak
+                                (pkgsNew.haskell.lib.dontCheck
+                                  haskellPackagesOld.pg-entity
+                                );
+
                             postgresql-simple-migration =
                               pkgsNew.haskell.lib.doJailbreak
                                 haskellPackagesOld.postgresql-simple-migration;
@@ -49,6 +61,9 @@
                             raven-haskell =
                               pkgsNew.haskell.lib.dontCheck
                                 haskellPackagesOld.raven-haskell;
+
+                            resource-pool =
+                              haskellPackagesNew.resource-pool_0_3_1_0;
 
                             slugify =
                               pkgsNew.haskell.lib.dontCheck
@@ -66,6 +81,10 @@
                               pkgsNew.haskell.lib.doJailbreak
                                 haskellPackagesOld.pg-transact-effectful;
 
+                            text-metrics =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.text-metrics;
+
                             type-errors-pretty =
                               pkgsNew.haskell.lib.doJailbreak
                                 (pkgsNew.haskell.lib.dontCheck
@@ -79,6 +98,9 @@
                             vector =
                               pkgsNew.haskell.lib.dontCheck
                                 haskellPackagesNew.vector_0_13_0_0;
+
+                            vector-algorithms =
+                              haskellPackagesNew.vector-algorithms_0_9_0_1;
                           })
                         ];
                   });
