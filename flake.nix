@@ -43,6 +43,10 @@
 
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
 
+                            log-effectful =
+                              pkgsNew.haskell.lib.doJailbreak
+                                haskellPackagesOld.log-effectful;
+
                             monad-time = haskellPackagesNew.monad-time_0_4_0_0;
 
                             odd-jobs =
