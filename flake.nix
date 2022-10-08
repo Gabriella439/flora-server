@@ -34,12 +34,16 @@
                             directory = ./nix;
                           })
                           (haskellPackagesNew: haskellPackagesOld: {
+                            Cabal-syntax = haskellPackagesNew.Cabal_3_8_1_0;
+
                             flora =
                               pkgsNew.haskell.lib.addBuildTool
                                 haskellPackagesOld.flora
                                 pkgsNew.souffle;
 
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
+
+                            monad-time = haskellPackagesNew.monad-time_0_4_0_0;
 
                             odd-jobs =
                               pkgsNew.haskell.lib.overrideCabal
