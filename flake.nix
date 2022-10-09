@@ -5,7 +5,7 @@
   };
 
   outputs = { nixpkgs, utils, ... }:
-    utils.lib.eachDefaultSystem (system:
+    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         compiler = "ghc92";
 
@@ -37,9 +37,13 @@
                             Cabal-syntax = haskellPackagesNew.Cabal_3_8_1_0;
 
                             flora =
-                              pkgsNew.haskell.lib.addBuildTool
-                                haskellPackagesOld.flora
-                                pkgsNew.souffle;
+                              if pkgsNew.stdenv.isLinux
+                              then
+                                pkgsNew.haskell.lib.addBuildTool
+                                  haskellPackagesOld.flora
+                                  pkgsNew.souffle
+                              else
+                                haskellPackagesOld.flora;
 
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
 
@@ -122,8 +126,13 @@
                                 haskellPackagesOld.wai-middleware-heartbeat;
 
                             vector =
-                              pkgsNew.haskell.lib.dontCheck
-                                haskellPackagesNew.vector_0_13_0_0;
+                              pkgsNew.haskell.lib.overrideCabal
+                                haskellPackagesNew.vector_0_13_0_0
+                                (old: {
+                                  testHaskellDepends = (old.testHaskellDepends or []) ++ [
+                                    haskellPackagesNew.doctest
+                                  ];
+                                });
 
                             vector-algorithms =
                               haskellPackagesNew.vector-algorithms_0_9_0_1;
@@ -141,10 +150,20 @@
         rec {
           packages.default = pkgs.haskell.packages."${compiler}".flora;
 
-          apps.default = {
-            type = "app";
+          apps = rec {
+            default = server;
 
-            program = "${pkgs.flora}/bin/flora-server";
+            server = {
+              type = "app";
+
+              program = "${pkgs.flora}/bin/flora-server";
+            };
+
+            cli = {
+              type = "app";
+
+              program = "${pkgs.flora}/bin/flora-cli";
+            };
           };
 
           devShells.default = pkgs.haskell.packages."${compiler}".flora.env;
