@@ -14,7 +14,19 @@
         overlay = pkgsNew: pkgsOld: {
           flora =
             pkgsNew.haskell.lib.justStaticExecutables
-              pkgsNew.haskellPackages.flora;
+              (pkgsNew.overrideCabal
+                pkgsNew.haskellPackages.flora
+                (old: {
+                  nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
+                    pkgsNew.makeWrapper
+                  ];
+
+                  postInstall = (old.postInstall or "") ++
+                    ''
+                    wrapProgram $out/bin/flora-cli --prefix PATH : ${pkgsNew.souffle}/bin
+                    '';
+                })
+              );
 
           haskell =
             pkgsOld.haskell // {
@@ -35,15 +47,6 @@
                           })
                           (haskellPackagesNew: haskellPackagesOld: {
                             Cabal-syntax = haskellPackagesNew.Cabal_3_8_1_0;
-
-                            flora =
-                              if pkgsNew.stdenv.isLinux
-                              then
-                                pkgsNew.haskell.lib.addBuildTool
-                                  haskellPackagesOld.flora
-                                  pkgsNew.souffle
-                              else
-                                haskellPackagesOld.flora;
 
                             lens-aeson = haskellPackagesNew.lens-aeson_1_2_2;
 
